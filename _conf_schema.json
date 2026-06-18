@@ -1,0 +1,129 @@
+{
+  "account_settings": {
+    "type": "object",
+    "description": "账号设置",
+    "hint": "QQ AI Connect Token 可通过 /txcm token 写入",
+    "items": {
+      "qq_ai_connect_token": {
+        "type": "string",
+        "description": "QQ AI Connect Token",
+        "hint": "不要带 Bearer 前缀。为空时只能列出工具，不能调用账号相关能力。",
+        "default": ""
+      }
+    }
+  },
+  "connection_settings": {
+    "type": "object",
+    "description": "连接设置",
+    "hint": "tencent-channel-cli 接口和请求参数",
+    "items": {
+      "mcp_endpoint": {
+        "type": "string",
+        "description": "MCP Endpoint",
+        "hint": "默认使用 tencent-channel-cli 同源 MCP 接口",
+        "default": "https://graph.qq.com/mcp_gateway/open_platform_agent_mcp/mcp"
+      },
+      "request_timeout_seconds": {
+        "type": "int",
+        "description": "请求超时（秒）",
+        "hint": "单次 HTTP 请求最大等待时间",
+        "default": 30,
+        "slider": {
+          "min": 5,
+          "max": 180,
+          "step": 5
+        }
+      },
+      "proxy": {
+        "type": "string",
+        "description": "HTTP 代理",
+        "hint": "例如 http://127.0.0.1:7890，留空使用系统环境",
+        "default": ""
+      }
+    }
+  },
+  "tool_settings": {
+    "type": "object",
+    "description": "工具设置",
+    "hint": "控制 LLM Tools 对写操作和高风险操作的访问",
+    "items": {
+      "enable_write_tools": {
+        "type": "bool",
+        "description": "启用写操作工具",
+        "hint": "发帖、评论、修改频道、加入/退出频道等写操作默认关闭",
+        "default": false
+      },
+      "enable_high_risk_tools": {
+        "type": "bool",
+        "description": "启用高风险工具",
+        "hint": "删帖、踢人、禁言、退频道、处理系统通知等操作默认关闭",
+        "default": false
+      },
+      "cache_tool_schema": {
+        "type": "bool",
+        "description": "缓存工具 schema",
+        "hint": "开启后 tools/list 结果会在插件运行期间缓存",
+        "default": true
+      }
+    }
+  },
+  "login_settings": {
+    "type": "object",
+    "description": "扫码登录设置",
+    "hint": "默认使用官方 CLI 同源的腾讯连接设备授权接口，/txcm login 会自动轮询",
+    "items": {
+      "device_code_request_url": {
+        "type": "string",
+        "description": "设备码申请端点",
+        "hint": "默认对应 CLI 的 RequestDeviceCode",
+        "default": "https://connect.qq.com/http2rpc/gotrpc/noauth/trpc.group_pro.open_developer_console.OpenDeveloperConsoleV2Trpc/RequestDeviceCode"
+      },
+      "device_token_poll_url": {
+        "type": "string",
+        "description": "设备码轮询端点",
+        "hint": "默认对应 CLI 的 PollDeviceToken",
+        "default": "https://connect.qq.com/http2rpc/gotrpc/noauth/trpc.group_pro.open_developer_console.OpenDeveloperConsoleV2Trpc/PollDeviceToken"
+      },
+      "login_timeout_seconds": {
+        "type": "int",
+        "description": "登录等待超时（秒）",
+        "hint": "设备码授权总等待时间",
+        "default": 420,
+        "slider": {
+          "min": 60,
+          "max": 900,
+          "step": 30
+        }
+      },
+      "login_poll_interval_seconds": {
+        "type": "int",
+        "description": "轮询间隔（秒）",
+        "hint": "后台自动轮询授权结果的间隔",
+        "default": 3,
+        "slider": {
+          "min": 1,
+          "max": 15,
+          "step": 1
+        }
+      },
+      "login_request_payload_json": {
+        "type": "text",
+        "description": "设备码申请额外请求体",
+        "hint": "JSON object。通常保持 {}，插件会自动补充合法 UUID device_id",
+        "default": "{}",
+        "editor_mode": true,
+        "editor_language": "json",
+        "editor_theme": "vs-dark"
+      },
+      "login_poll_payload_json": {
+        "type": "text",
+        "description": "设备码轮询额外请求体",
+        "hint": "JSON object。通常保持 {}，插件会自动补充 device_code 和 device_id",
+        "default": "{}",
+        "editor_mode": true,
+        "editor_language": "json",
+        "editor_theme": "vs-dark"
+      }
+    }
+  }
+}
